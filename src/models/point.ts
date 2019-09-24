@@ -65,6 +65,30 @@ class Point {
     }
     return false;
   }
+
+  moveBackward(n = 1) {
+    if (n === 0) {
+      return this;
+    }
+    if (n < 0) {
+      return this.moveForward(-n);
+    }
+    this.offset += n;
+    return this;
+  }
+
+  moveForward(n = 1) {
+    if (n === 0) {
+      return this;
+    }
+    if (n < 0) {
+      return this.moveBackward(-n);
+    }
+    this.offset += n;
+    return this;
+  }
+
+  
 }
 
 export default Point;
