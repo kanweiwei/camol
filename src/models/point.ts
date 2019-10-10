@@ -1,5 +1,7 @@
 import PathUtil from "../utils/path-util";
+import KeyUtils from "../utils/key-util";
 import MODEL_TYPES from "../constants/model-types";
+import { isEqual } from "lodash-es";
 
 class Point {
   key: string | null = null;
@@ -88,7 +90,42 @@ class Point {
     return this;
   }
 
-  
+  moveTo(offset: number): Point;
+  moveTo(key: string, offset?: number): Point;
+  moveTo(path: number[], offset?: number): Point;
+  moveTo(path: string | number | number[], offset = 0) {
+    if (typeof path === "number") {
+      this.offset = path;
+    } else if (typeof path === "string") {
+      let key = path;
+      this.path = key === this.key ? this.path : null;
+      this.offset = offset;
+    } else {
+      this.key =
+        this.path && path && isEqual(path, this.path) ? this.key : null;
+      this.offset = offset;
+    }
+    return this;
+  }
+
+  moveToStartOfNode(node): Point {
+    const first = node.getFirstText();
+    return this.moveTo(first.key, 0);
+  }
+
+  moveToEndOfNode(node): Point {
+    const last = node.getLastText();
+    return this.moveTo(last.key, last.text.length);
+  }
+
+  setKey(key: string | null): Point {
+    if (key !== null) {
+      key = KeyUtils.create(key);
+    }
+
+    this.key = key;
+    return this;
+  }
 }
 
 export default Point;

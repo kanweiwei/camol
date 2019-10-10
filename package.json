@@ -15,5 +15,11 @@
   "bugs": {
     "url": "https://github.com/kanweiwei/camol/issues"
   },
-  "homepage": "https://github.com/kanweiwei/camol#readme"
+  "homepage": "https://github.com/kanweiwei/camol#readme",
+  "dependencies": {
+    "lodash-es": "^4.17.15"
+  },
+  "devDependencies": {
+    "@types/lodash-es": "^4.17.3"
+  }
 }
