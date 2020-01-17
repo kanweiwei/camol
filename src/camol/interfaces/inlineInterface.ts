@@ -8,4 +8,5 @@ export default interface InlineInterface
   data: any;
   readonly object: "inline";
   readonly text: string;
+  getFirstText(): TextInterface;
 }

@@ -20,7 +20,8 @@ class Text implements TextInterface {
     this.leaves = leaves ? leaves.map(l => Leaf.create(l)) : [];
   }
 
-  static create(attrs: string | TextProps | TextInterface) {
+  static create(attrs?: string | TextProps | TextInterface) {
+    attrs = attrs ?? "";
     if (isString(attrs)) {
       attrs = {
         key: keyUtil.create(),

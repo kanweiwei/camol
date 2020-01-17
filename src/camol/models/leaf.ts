@@ -30,7 +30,8 @@ class Leaf implements LeafInterface {
     this.marks = marks ? marks.map(m => Mark.create(m)) : [];
   }
 
-  static create(attrs: string | LeafProps | LeafInterface) {
+  static create(attrs?: string | LeafProps | LeafInterface) {
+    attrs = attrs ?? "";
     if (isString(attrs)) {
       attrs = {
         marks: [],

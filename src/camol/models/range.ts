@@ -1,14 +1,16 @@
 import { isObject } from "lodash-es";
 import pathUtil from "../utils/path-util";
-import Mark from "./mark";
-import Point from "./point";
+import Mark, { MarkLike } from "./mark";
+import Point, { PointLike } from "./point";
 
-interface RangeAttrs {
-  anchor: Point;
-  focus: Point;
-  isFocused: boolean;
-  marks: Mark[];
-}
+export type RangeLike = RangeProps;
+
+type RangeProps = {
+  anchor?: PointLike;
+  focus?: PointLike;
+  isFocused?: boolean;
+  marks?: MarkLike[];
+};
 
 class Range {
   anchor: Point;
@@ -16,14 +18,14 @@ class Range {
   isFocused: boolean = false;
   marks: Mark[] = [];
 
-  constructor({ anchor, focus, isFocused, marks }: RangeAttrs) {
+  constructor({ anchor, focus, isFocused, marks }: RangeProps) {
     this.anchor = Point.create(anchor || {});
     this.focus = Point.create(focus || {});
     this.isFocused = isFocused ?? false;
     this.marks = marks ? marks.map(m => Mark.create(m)) : [];
   }
 
-  static create(attrs: RangeAttrs | Range) {
+  static create(attrs: RangeProps | Range) {
     if (attrs instanceof Range) {
       return attrs;
     }
@@ -32,7 +34,7 @@ class Range {
     }
   }
 
-  static fromObject(attrs: RangeAttrs) {
+  static fromObject(attrs: RangeProps) {
     return new Range(attrs);
   }
 

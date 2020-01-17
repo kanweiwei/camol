@@ -2,7 +2,8 @@ import { isObject } from "lodash-es";
 import keyUtil from "../utils/key-util";
 import pathUtil from "../utils/path-util";
 
-interface PointAttrs {
+export type PointLike = PointProps;
+interface PointProps {
   key?: string;
   offset?: number;
   path?: number[];
@@ -12,13 +13,13 @@ class Point {
   offset: number;
   path: number[];
 
-  constructor({ key, offset, path }: PointAttrs) {
+  constructor({ key, offset, path }: PointProps) {
     this.key = key ?? keyUtil.create();
     this.offset = offset ?? 0;
     this.path = pathUtil.create(path);
   }
 
-  static create(attrs: Point | PointAttrs) {
+  static create(attrs: Point | PointProps) {
     if (attrs instanceof Point) {
       return attrs;
     }
@@ -27,7 +28,7 @@ class Point {
     }
   }
 
-  static fromObject(attrs: PointAttrs) {
+  static fromObject(attrs: PointProps) {
     return new Point(attrs);
   }
 

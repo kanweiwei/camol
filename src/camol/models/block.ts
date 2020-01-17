@@ -1,12 +1,12 @@
+import { isArray, isObject, isString } from "lodash-es";
 import BlockInterface from "../interfaces/blockInterface";
-import Inline, { InlineLike } from "./inline";
-import Text, { TextLike } from "./text";
 import InlineInterface from "../interfaces/inlineInterface";
 import TextInterface from "../interfaces/textInterface";
-import { isString, isObject, isArray } from "lodash-es";
 import keyUtil from "../utils/key-util";
+import Inline, { InlineLike } from "./inline";
+import Text, { TextLike } from "./text";
 
-type BlockLike = BlockProps | BlockInterface;
+export type BlockLike = BlockProps | BlockInterface;
 
 type BlockProps = {
   type: string;
@@ -32,14 +32,15 @@ class Block implements BlockInterface {
     this.nodes = isArray(nodes) ? this.createChildren(nodes) : [];
   }
 
-  static create(attrs: string | BlockLike) {
+  static create(attrs?: string | BlockLike) {
+    attrs = attrs ?? "";
     if (isString(attrs)) {
       attrs = {
         key: keyUtil.create(),
-        type: attrs,
+        type: "div",
         object: "block",
         data: {},
-        nodes: []
+        nodes: [Text.create(attrs)]
       };
     }
     if (attrs instanceof Block) {
@@ -72,6 +73,16 @@ class Block implements BlockInterface {
           throw new Error(`'createChildren' require a 'object' string`);
       }
     });
+  }
+
+  getFirstText() {
+    if (this.nodes[0] instanceof Text) {
+      return this.nodes[0];
+    } else {
+      return (this.nodes[0] as
+        | BlockInterface
+        | InlineInterface)?.getFirstText();
+    }
   }
 }
 

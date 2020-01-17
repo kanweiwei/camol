@@ -27,14 +27,15 @@ class Inline implements InlineInterface {
     this.nodes = isArray(nodes) ? this.createChildren(nodes) : [];
   }
 
-  static create(attrs: string | InlineProps | InlineInterface) {
+  static create(attrs?: string | InlineProps | InlineInterface) {
+    attrs = attrs ?? "";
     if (isString(attrs)) {
       attrs = {
         key: keyUtil.create(),
-        type: attrs,
+        type: "span",
         object: "inline",
         data: {},
-        nodes: []
+        nodes: [Text.create(attrs)]
       };
     }
     if (attrs instanceof Inline) {
@@ -70,6 +71,14 @@ class Inline implements InlineInterface {
         }
       })
       .filter(n => n);
+  }
+
+  getFirstText() {
+    if (this.nodes[0] instanceof Text) {
+      return this.nodes[0];
+    } else {
+      return (this.nodes[0] as InlineInterface)?.getFirstText();
+    }
   }
 }
 

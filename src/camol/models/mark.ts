@@ -1,6 +1,8 @@
 import { isObject, isString } from "lodash-es";
 import MarkInterface from "../interfaces/markInterface";
 
+export type MarkLike = MarkProps;
+
 export type MarkProps = {
   type: string;
   data: any;
