@@ -1,0 +1,18 @@
+{
+  "compilerOptions": {
+    "outDir": "dist",
+    "module": "esnext",
+    "target": "ES5",
+    "lib": ["es6", "dom", "esnext"],
+    "sourceMap": true,
+    "jsx": "react",
+    "moduleResolution": "node",
+    "rootDir": "src",
+    "declaration": true,
+    "skipLibCheck": true
+  },
+  "exclude": [
+    "node_modules",
+    "dist"
+  ]
+}
