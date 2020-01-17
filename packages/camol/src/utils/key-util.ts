@@ -33,14 +33,14 @@ function create(key?: string): string {
  * Set a different unique ID generating `function`.
  * @param func
  */
-function setGenerator(func: () => string): void {
+export function setGenerator(func: () => string): void {
   generate = func;
 }
 
 /**
  * Reset the key generating function to its initial state.
  */
-function resetGenerator(): void {
+export function resetGenerator(): void {
   n = 0;
   generate = () => `${n++}`;
 }

@@ -2,7 +2,9 @@
   "name": "camol",
   "version": "0.0.1",
   "description": "editor",
-  "main": "index.js",
+  "main": "lib/index.js",
+  "module": "es/index.js",
+  "jsnext:main": "es/index.js",
   "author": "kanweiwei",
   "license": "MIT",
   "dependencies": {

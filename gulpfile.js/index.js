@@ -4,20 +4,19 @@ const babelConfig = require("./babelConfig");
 const path = require("path");
 const rimraf = require("rimraf");
 const ts = require("gulp-typescript");
-
+const fs = require("fs");
 const merge = require("merge2");
 
-const tsConfig = require("../tsconfig.json");
-var tsProject = ts.createProject("tsconfig.json", tsConfig);
+function getPackages() {
+  let packages = fs.readdirSync(path.join(__dirname, "../packages/"));
+  if (packages && packages.length > 0) {
+    return packages;
+  } else {
+    return [];
+  }
+}
 
-const source = [
-  "src/**/*.js",
-  "src/**/*.ts",
-  "src/**/*.tsx",
-  "!node_modules/**/*.*",
-  "!src/camol/node_modules/**/*.*"
-];
-
+const source = ["!node_modules/**/*.*"];
 function clean(cb) {
   rimraf(path.join(__dirname, "../dist"), () => cb());
 }
@@ -29,12 +28,38 @@ function compileWithBabel() {
     .pipe(gulp.dest("dist"));
 }
 
+function babelJs(stream, p) {
+  return stream
+    .pipe(gulp.dest(`dist/${p}/dist/`))
+    .pipe(gulp.dest(`dist/${p}/es/`))
+    .pipe(
+      babel({
+        plugins: ["@babel/plugin-transform-modules-commonjs"]
+      })
+    )
+    .pipe(gulp.dest(`dist/${p}/lib/`));
+}
+
 function defaultTask() {
-  const tsResult = gulp.src(source).pipe(tsProject());
-  return merge([
-    tsResult.dts.pipe(gulp.dest("dist")),
-    tsResult.js.pipe(gulp.dest("dist"))
-  ]);
+  let packages = getPackages();
+  let packageStreams = packages.map(p => {
+    let tsProject = ts.createProject("tsconfig.json");
+
+    let s = [].concat(source, [
+      `packages/${p}/src/**/*.ts`,
+      `packages/${p}/src/**/*.tsx`,
+      `!packages/${p}/node_modules/**/*.*`
+    ]);
+    const tsResult = gulp.src(s).pipe(tsProject());
+    return merge([
+      tsResult.dts
+        .pipe(gulp.dest(`dist/${p}/dist/`))
+        .pipe(gulp.dest(`dist/${p}/lib/`))
+        .pipe(gulp.dest(`dist/${p}/es/`)),
+      babelJs(tsResult.js, p)
+    ]);
+  });
+  return merge(packageStreams);
 }
 
 exports.default = gulp.series(clean, defaultTask);
