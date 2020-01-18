@@ -1,0 +1,16 @@
+{
+  "name": "camol",
+  "version": "0.0.1",
+  "description": "editor",
+  "main": "lib/index.js",
+  "module": "es/index.js",
+  "jsnext:main": "es/index.js",
+  "author": "kanweiwei",
+  "license": "MIT",
+  "dependencies": {
+    "lodash-es": "^4.17.15"
+  },
+  "devDependencies": {
+    "@types/lodash-es": "^4.17.3"
+  }
+}
