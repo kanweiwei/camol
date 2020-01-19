@@ -25,13 +25,12 @@ function renderNodes(
   return nodes.map(n => {
     let r: React.ReactNode | React.ReactNode[];
     for (let i = 0, len = renderNodePlugins.length; i < len; i++) {
-      let t = renderNodePlugins[i].renderNode({
+      r = renderNodePlugins[i].renderNode({
         node: n,
         attributes: { "data-key": n.key },
         children: "nodes" in n ? renderNodes(n.nodes, { plugins }) : n.text
       });
-      if (t) {
-        r = t;
+      if (r) {
         return r;
       }
     }
