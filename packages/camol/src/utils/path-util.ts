@@ -1,5 +1,5 @@
-function create(props: any) {
-  if (props === null) {
+function create(props?: number[]) {
+  if (!props) {
     return [];
   }
   if (Array.isArray(props)) {

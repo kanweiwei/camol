@@ -1,0 +1,12 @@
+{
+  "name": "camol-react",
+  "version": "0.0.1",
+  "main": "lib/index.js",
+  "module": "es/index.js",
+  "jsnext:main": "es/main.js",
+  "author": "kanweiwei",
+  "license": "MIT",
+  "dependencies": {
+    "react": "^16.12.0"
+  }
+}

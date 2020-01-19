@@ -39,10 +39,9 @@ function babelJs(stream, p) {
     )
     .pipe(gulp.dest(`dist/${p}/lib/`));
 }
-
-function defaultTask() {
-  let packages = getPackages();
-  let packageStreams = packages.map(p => {
+let packages = getPackages();
+let packageCompileTasks = packages.map(p => {
+  const compileTask = () => {
     let tsProject = ts.createProject("tsconfig.json");
 
     let s = [].concat(source, [
@@ -58,8 +57,20 @@ function defaultTask() {
         .pipe(gulp.dest(`dist/${p}/es/`)),
       babelJs(tsResult.js, p)
     ]);
-  });
-  return merge(packageStreams);
+  };
+  return compileTask;
+});
+
+function copyPackageJson() {
+  let packages = getPackages();
+  return merge(
+    packages.map(p => {
+      let source = [`packages/${p}/package.json`];
+      return gulp.src(source).pipe(gulp.dest(`dist/${p}/`));
+    })
+  );
 }
 
-exports.default = gulp.series(clean, defaultTask);
+exports.copyPackageJson = gulp.series(copyPackageJson);
+
+exports.default = gulp.series(clean, copyPackageJson, ...packageCompileTasks);

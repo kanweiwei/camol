@@ -1,4 +1,5 @@
-import { isObject, isString } from "lodash-es";
+import isString from "lodash/isString";
+import isObject from "lodash/isObject";
 import LeafInterface from "../interfaces/leafInterface";
 import MarkInterface from "../interfaces/markInterface";
 import Mark, { MarkProps } from "./mark";

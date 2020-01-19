@@ -1,6 +1,8 @@
 import BlockInterface from "../interfaces/blockInterface";
 import Block, { BlockLike } from "./block";
-import { isString, isObject, isArray } from "lodash-es";
+import isString from "lodash/isString";
+import isObject from "lodash/isObject";
+import isArray from "lodash/isArray"
 import keyUtil from "../utils/key-util";
 
 export type DocumentLike = DocumentProps;

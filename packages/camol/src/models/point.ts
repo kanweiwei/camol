@@ -1,4 +1,4 @@
-import { isObject } from "lodash-es";
+import isObject from "lodash/isObject";
 import keyUtil from "../utils/key-util";
 import pathUtil from "../utils/path-util";
 

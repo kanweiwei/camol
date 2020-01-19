@@ -1,6 +1,7 @@
 import Document, { DocumentLike } from "./document";
 import Range, { RangeLike } from "./range";
-import { isString, values, isObject } from "lodash-es";
+import isString from "lodash/isString";
+import isObject from "lodash/isObject";
 import Point from "./point";
 
 export type ValueLike = ValueProps;

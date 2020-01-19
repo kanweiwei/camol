@@ -1,4 +1,6 @@
-import { isArray, isObject, isString } from "lodash-es";
+import isArray from "lodash/isArray";
+import isObject from "lodash/isObject";
+import isString from "lodash/isString";
 import BlockInterface from "../interfaces/blockInterface";
 import InlineInterface from "../interfaces/inlineInterface";
 import TextInterface from "../interfaces/textInterface";

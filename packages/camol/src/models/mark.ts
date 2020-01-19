@@ -1,4 +1,5 @@
-import { isObject, isString } from "lodash-es";
+import isString from "lodash/isString";
+import isObject from "lodash/isObject";
 import MarkInterface from "../interfaces/markInterface";
 
 export type MarkLike = MarkProps;
