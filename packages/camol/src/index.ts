@@ -5,7 +5,7 @@ import Inline from "./models/inline";
 import Block from "./models/block";
 import Document from "./models/document";
 import Range from "./models/range";
-import Stack from "./models/Stack";
+import Stack from "./models/stack";
 import Value from "./models/value";
 import { setGenerator, resetGenerator } from "./utils/key-util";
 

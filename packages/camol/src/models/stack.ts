@@ -1,5 +1,5 @@
-import { isArray } from "lodash-es";
-
+import isArray from "lodash/isArray";
+import { Memoize } from "lodash-decorators";
 interface PluginKeys {
   // #region 事件句柄
   /**
@@ -71,6 +71,7 @@ class Stack {
    * 获取所有拥有指定属性的插件
    * @param property
    */
+  @Memoize
   getPluginsWith(property: string) {
     return this.plugins.filter(p => property in p);
   }

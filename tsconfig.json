@@ -10,7 +10,8 @@
     "rootDir": "packages",
     "declaration": true,
     "skipLibCheck": true,
-    "allowSyntheticDefaultImports": true
+    "allowSyntheticDefaultImports": true,
+    "experimentalDecorators": true
   },
   "exclude": ["node_modules", "dist"]
 }
