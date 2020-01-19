@@ -5,6 +5,7 @@ import Inline from "./models/inline";
 import Block from "./models/block";
 import Document from "./models/document";
 import Range from "./models/range";
+import Stack from "./models/Stack";
 import Value from "./models/value";
 import { setGenerator, resetGenerator } from "./utils/key-util";
 
@@ -16,6 +17,7 @@ export {
   Block,
   Document,
   Range,
+  Stack,
   Value,
   setGenerator,
   resetGenerator
@@ -29,6 +31,7 @@ export default {
   Block,
   Document,
   Range,
+  Stack,
   Value,
   setGenerator,
   resetGenerator
