@@ -59,7 +59,7 @@ class Stack {
     if (plugins instanceof Stack) {
       return plugins;
     }
-    if (isArray) {
+    if (isArray(plugins)) {
       return Stack.fromObject(plugins);
     }
   }
