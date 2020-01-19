@@ -1,12 +1,18 @@
 import * as React from "react";
-import { Value, Document } from "camol";
+import { Value, Document, Stack } from "camol";
 import afterPlugin, { renderNodeArgs } from "../plugins/after";
+import beforePlugin from "../plugins/before";
 import BlockInterface from "camol/lib/interfaces/blockInterface";
 import InlineInterface from "camol/lib/interfaces/inlineInterface";
 import TextInterface from "camol/lib/interfaces/textInterface";
+import PluginProps from "../constants/plugin-props";
 
 interface Plugin {
   renderNode?(data: renderNodeArgs): React.ReactNode | React.ReactNode[];
+}
+
+interface EditorInstance {
+  stack: Stack;
 }
 
 interface EditorProps {
@@ -18,9 +24,9 @@ interface EditorProps {
 
 function renderNodes(
   nodes: (BlockInterface | InlineInterface | TextInterface)[],
-  { plugins }
+  editor: EditorInstance
 ) {
-  let renderNodePlugins = plugins.filter((n: any) => "renderNode" in n);
+  let renderNodePlugins = editor.stack.getPluginsWith("renderNode");
 
   return nodes.map(n => {
     let r: React.ReactNode | React.ReactNode[];
@@ -28,7 +34,7 @@ function renderNodes(
       r = renderNodePlugins[i].renderNode({
         node: n,
         attributes: { "data-key": n.key },
-        children: "nodes" in n ? renderNodes(n.nodes, { plugins }) : n.text
+        children: "nodes" in n ? renderNodes(n.nodes, editor) : n.text
       });
       if (r) {
         return r;
@@ -38,19 +44,12 @@ function renderNodes(
   });
 }
 
-function renderContent(document: Document, { plugins }) {
-  return renderNodes(document.nodes, { plugins });
+function renderContent(document: Document, editor: EditorInstance) {
+  return renderNodes(document.nodes, editor);
 }
 
-function renderEditor(props: EditorProps) {
-  let { value, plugins, renderNode } = props;
-  plugins = plugins ?? [];
-  let customPlugin: Plugin = {};
-  let allPlugins = [];
-  if (renderNode) {
-    customPlugin.renderNode = renderNode;
-  }
-  allPlugins = [...plugins, customPlugin, afterPlugin];
+function renderEditor(props: EditorProps, editor: EditorInstance) {
+  let { value } = props;
   return (
     <div
       data-camol-editor={true}
@@ -84,13 +83,29 @@ function renderEditor(props: EditorProps) {
       // so we have to disable it like this. (2017/04/24)
       data-gramm={false}
     >
-      {renderContent(value.document, { plugins: allPlugins })}
+      {renderContent(value.document, editor)}
     </div>
   );
 }
 
+function getPlugins(props: EditorProps) {
+  let { plugins } = props;
+  plugins = plugins ?? [];
+  let customPlugin: Plugin = {};
+  let allPlugins = [];
+  for (var prop in props) {
+    if (prop in PluginProps) {
+      customPlugin[prop] = props[prop];
+    }
+  }
+  allPlugins = [beforePlugin, ...plugins, customPlugin, afterPlugin];
+  return allPlugins;
+}
+
 function Editor(props: EditorProps) {
-  return renderEditor(props);
+  let allPlugins = getPlugins(props);
+  const stack = Stack.create(allPlugins);
+  return renderEditor(props, { stack });
 }
 
 export default Editor;
